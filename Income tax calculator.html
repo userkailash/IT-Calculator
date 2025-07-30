@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Income Tax Calculator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      padding: 40px;
+      text-align: center;
+      color: #333;
+    }
+
+    .container {
+      background: white;
+      border-radius: 12px;
+      max-width: 500px;
+      margin: auto;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .logo img {
+      max-width: 180px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 20px;
+      color: #222;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 12px;
+      margin: 20px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 17px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+      margin-top: 10px;
+    }
+
+    .results {
+      margin-top: 25px;
+      text-align: left;
+    }
+
+    .results p {
+      font-size: 16px;
+      margin: 8px 0;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #3583c3;
+    }
+    
+    .illustration img {
+      max-width: 80%;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="https://scontent-maa2-1.xx.fbcdn.net/v/t39.30808-6/468534038_122179576556128343_3105970904216675892_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=105&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=-D557gM3DmkQ7kNvwGvO1ll&_nc_oc=Adl9IxXOAsT58iAzN6kjvm6vvoraa_Yfxv_qRwwjaAIZlqgJj8tI9E6lsrpEchsmLQ0&_nc_zt=23&_nc_ht=scontent-maa2-1.xx&_nc_gid=XemWqjaCJgRMt3utPYWo4g&oh=00_AfS5TsWQgqundHquIqRrKVwXieO0PLrCaLuOOkoP8auu2Q&oe=688F8CA7" alt="Company Logo" />
+    </div>
+    
+    <div class="illustration">
+      <img src="https://img.freepik.com/free-vector/calculator-floating-cartoon-vector-icon-illustration-finance-business-icon-concept-isolated-flat_138676-9297.jpg?t=st=1753861501~exp=1753865101~hmac=d689d4204fdaf12f43629d1e758a45d2258f208b182fd716dadb0d71d0bb4381&w=1480" alt="Budget Planning Illustration" style="max-width: 300px; height: auto; display: block; margin: 0 auto 20px auto;" />
+    </div>
+
+    <h1><center>Income Tax Calculator - Your Smart Choice in Seconds</center></h1>
+    <input type="number" id="income" placeholder="Enter your annual income (in rupee)" />
+    <button onclick="calculateTax()"><b>Calculate Tax</b></button>
+
+    <div class="results" id="output" style="display:none;">
+      <p>Old Regime: <span class="highlight">₹<span id="oldTax">0</span></span></p>
+      <p>New Regime: <span class="highlight">₹<span id="newTax">0</span></span></p>
+      <p>Your best choice: <span class="highlight" id="better"style="color:#4CAF50">-</span></p>
+      <p id="difference" style="color:#000000;font-weight:bold;"></p>
+    </div>
+  </div>
+
+  <script>
+    function calculateTax() {
+      const income = parseFloat(document.getElementById("income").value);
+      if (isNaN(income) || income < 0) {
+        alert("Please enter a valid income.");
+        return;
+      }
+
+      let oldTax = 0;
+      if (income <= 250000) {
+        oldTax = 0;
+      } else if (income <= 500000) {
+        oldTax = (income - 250000) * 0.05;
+      } else if (income <= 1000000) {
+        oldTax = 12500 + (income - 500000) * 0.2;
+      } else {
+        oldTax = 112500 + (income - 1000000) * 0.3;
+      }
+
+      let newTax = 0;
+      if (income <= 300000) {
+        newTax = 0;
+      } else if (income <= 600000) {
+        newTax = (income - 300000) * 0.05;
+      } else if (income <= 900000) {
+        newTax = 15000 + (income - 600000) * 0.10;
+      } else if (income <= 1200000) {
+        newTax = 45000 + (income - 900000) * 0.15;
+      } else if (income <= 1500000) {
+        newTax = 90000 + (income - 1200000) * 0.20;
+      } else {
+        newTax = 150000 + (income - 1500000) * 0.30;
+      }
+
+      const taxDiff = Math.abs(oldTax - newTax);
+      const better = oldTax < newTax ? "Old Regime" : "New Regime";
+
+      document.getElementById("oldTax").innerText = Math.round(oldTax).toLocaleString();
+      document.getElementById("newTax").innerText = Math.round(newTax).toLocaleString();
+      document.getElementById("better").innerText = better;
+      document.getElementById("difference").innerText = `Tax Saved: ₹${Math.round(taxDiff).toLocaleString()}`;
+
+      document.getElementById("output").style.display = "block";
+    }
+  </script>
+</body>
+</html>
